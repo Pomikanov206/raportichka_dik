@@ -1,6 +1,8 @@
 package com.example.pomik.studentraportichka.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -8,15 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pomik.studentraportichka.R;
 import com.example.pomik.studentraportichka.adapter.StudentListAdapter;
+import com.example.pomik.studentraportichka.model.DataBaseDemo;
+import com.example.pomik.studentraportichka.model.DemoTempFileManager;
 import com.example.pomik.studentraportichka.model.Student;
+import com.example.pomik.studentraportichka.presenter.StudentCheckListPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class StudentCheckListFragment extends AppCompatActivity {
+public class StudentCheckListFragment extends AppCompatActivity implements CheckListView{
     private RecyclerView recyclerView;
     private StudentListAdapter studentListAdapter;
     private List<Student> studentList;
+    private StudentCheckListPresenter presenter;
 
     private static final String[] studentNames = {"Agafonof I.", "Berezin D.", "Priymakov M."};
 
@@ -25,15 +30,11 @@ public class StudentCheckListFragment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_list);
 
-        studentList = new ArrayList<>();
+        presenter = new StudentCheckListPresenter(this);
 
-        for (int i = 0; i < studentNames.length; i++) {
-            Student student = new Student();
-            student.setId(i+1);
-            student.setName(studentNames[i]);
-
-            studentList.add(student);
-        }
+        Intent intent = getIntent();
+        final String groupName = intent.getStringExtra("GROUP");
+        studentList = presenter.getStudentList(groupName);
 
         studentListAdapter = new StudentListAdapter(studentList);
 
@@ -41,5 +42,14 @@ public class StudentCheckListFragment extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(studentListAdapter);
+
+        findViewById(R.id.submit_list).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Student> missingStudents = studentListAdapter.getMissingStudents();
+                DemoTempFileManager.getInstance().saveGroup(groupName, missingStudents);
+                finish();
+            }
+        });
     }
 }

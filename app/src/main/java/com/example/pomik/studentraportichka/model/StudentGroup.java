@@ -5,6 +5,15 @@ public class StudentGroup {
     private int building;
     private int classRoom;
 
+    public StudentGroup() {
+    }
+
+    public StudentGroup(String groupName, int building, int classRoom) {
+        this.groupName = groupName;
+        this.building = building;
+        this.classRoom = classRoom;
+    }
+
     public String getGroupName() {
         return groupName;
     }

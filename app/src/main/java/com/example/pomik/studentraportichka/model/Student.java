@@ -5,6 +5,14 @@ public class Student {
     private String name;
     private boolean check;
 
+    public Student() {
+    }
+
+    public Student(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

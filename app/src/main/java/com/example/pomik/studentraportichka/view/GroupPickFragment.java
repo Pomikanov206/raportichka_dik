@@ -1,22 +1,31 @@
 package com.example.pomik.studentraportichka.view;
 
 //import android.support.v7.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pomik.studentraportichka.R;
-import com.example.pomik.studentraportichka.model.StudentGroup;
 import com.example.pomik.studentraportichka.adapter.StudentGroupListAdapter;
+import com.example.pomik.studentraportichka.model.DemoTempFileManager;
+import com.example.pomik.studentraportichka.model.Student;
+import com.example.pomik.studentraportichka.model.StudentGroup;
+import com.example.pomik.studentraportichka.model.TempFileManager;
+import com.example.pomik.studentraportichka.presenter.GroupPickPresenter;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public class GroupPickFragment extends AppCompatActivity {
+public class GroupPickFragment extends AppCompatActivity implements GroupPickView{
 
     private RecyclerView recyclerView;
     private StudentGroupListAdapter studentGroupAdapter;
-    private ArrayList<StudentGroup> studentGroups;
+    private List<StudentGroup> studentGroups;
+    private GroupPickPresenter presenter;
 
     public static final String[] groupsName = {"КС-17-1","КС-19-1", "KC-19-2/11"};
     public static final int[] buildings = {1,2,1};
@@ -26,23 +35,39 @@ public class GroupPickFragment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_pick);
-        studentGroups  = new ArrayList<>();
+        //studentGroups  = new ArrayList<>();
 
-        for(int i = 0; i < groupsName.length; i++) {
-            StudentGroup studentGroup = new StudentGroup();
+        TempFileManager.getInstance().create(this.getApplicationContext());
 
-            studentGroup.setGroupName(groupsName[i]);
-            studentGroup.setBuilding(buildings[i]);
-            studentGroup.setClassRoom(classRoms[i]);
+        presenter = new GroupPickPresenter(this);
 
-            studentGroups.add(studentGroup);
-        }
+        studentGroups = presenter.getGroupList();
 
         studentGroupAdapter = new StudentGroupListAdapter(studentGroups);
-
+        studentGroupAdapter.setGroupPickFragment(this);
         recyclerView = findViewById(R.id.group_pick_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(studentGroupAdapter);
+
+        findViewById(R.id.send_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Map<String, List<Student>> allNoExistStudents = DemoTempFileManager.getInstance().getAllNoExistStudents();
+                ;
+            }
+        });
+    }
+
+    /*
+    public void onClick(View view) {
+        Intent intent = new Intent(GroupPickFragment.this, StudentCheckListFragment.class);
+
+        startActivity(intent);
+    }
+    */
+    @Override
+    public void changeBackground(boolean check) {
+
     }
 }
