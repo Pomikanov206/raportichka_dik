@@ -1,4 +1,4 @@
-package com.example.pomik.studentraportichka.view;
+package com.example.pomik.studentraportichka.ui.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,17 +9,16 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pomik.studentraportichka.R;
-import com.example.pomik.studentraportichka.adapter.StudentListAdapter;
-import com.example.pomik.studentraportichka.model.DataBaseDemo;
-import com.example.pomik.studentraportichka.model.DemoTempFileManager;
-import com.example.pomik.studentraportichka.model.Student;
+import com.example.pomik.studentraportichka.ui.view.adapter.ViewStudentListAdapter;
+import com.example.pomik.studentraportichka.datasource.DemoTempFileManager;
+import com.example.pomik.studentraportichka.domain.usecase.model.Student;
 import com.example.pomik.studentraportichka.presenter.StudentCheckListPresenter;
 
 import java.util.List;
 
 public class StudentCheckListFragment extends AppCompatActivity implements CheckListView{
     private RecyclerView recyclerView;
-    private StudentListAdapter studentListAdapter;
+    private ViewStudentListAdapter viewStudentListAdapter;
     private List<Student> studentList;
     private StudentCheckListPresenter presenter;
 
@@ -36,17 +35,17 @@ public class StudentCheckListFragment extends AppCompatActivity implements Check
         final String groupName = intent.getStringExtra("GROUP");
         studentList = presenter.getStudentList(groupName);
 
-        studentListAdapter = new StudentListAdapter(studentList);
+        viewStudentListAdapter = new ViewStudentListAdapter(studentList);
 
         recyclerView = findViewById(R.id.student_list_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(studentListAdapter);
+        recyclerView.setAdapter(viewStudentListAdapter);
 
         findViewById(R.id.submit_list).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Student> missingStudents = studentListAdapter.getMissingStudents();
+                List<Student> missingStudents = viewStudentListAdapter.getMissingStudents();
                 DemoTempFileManager.getInstance().saveGroup(groupName, missingStudents);
                 finish();
             }

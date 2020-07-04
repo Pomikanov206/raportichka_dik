@@ -1,4 +1,4 @@
-package com.example.pomik.studentraportichka.adapter;
+package com.example.pomik.studentraportichka.ui.view.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,17 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import com.example.pomik.studentraportichka.R;
-import com.example.pomik.studentraportichka.model.Student;
+import com.example.pomik.studentraportichka.domain.usecase.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentListAdapter extends Adapter<StudentListAdapter.StudentListViewHolder> {
+public class ViewStudentListAdapter extends Adapter<ViewStudentListAdapter.StudentListViewHolder> {
     List<Student> studentList;
     Context context;
     private List<Student> missingStudents;
 
-    public StudentListAdapter(List<Student> studentList) {
+    public ViewStudentListAdapter(List<Student> studentList) {
         this.studentList = studentList;
         missingStudents = new ArrayList<>();
     }

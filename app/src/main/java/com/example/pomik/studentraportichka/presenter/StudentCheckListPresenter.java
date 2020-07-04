@@ -1,9 +1,9 @@
 package com.example.pomik.studentraportichka.presenter;
 
-import com.example.pomik.studentraportichka.model.DataBaseDemo;
-import com.example.pomik.studentraportichka.model.DataBaseReader;
-import com.example.pomik.studentraportichka.model.Student;
-import com.example.pomik.studentraportichka.view.CheckListView;
+import com.example.pomik.studentraportichka.datasource.DataBaseDemo;
+import com.example.pomik.studentraportichka.datasource.DataBaseReader;
+import com.example.pomik.studentraportichka.domain.usecase.model.Student;
+import com.example.pomik.studentraportichka.ui.view.CheckListView;
 
 import java.util.List;
 

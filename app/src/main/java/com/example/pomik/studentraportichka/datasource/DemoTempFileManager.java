@@ -1,4 +1,6 @@
-package com.example.pomik.studentraportichka.model;
+package com.example.pomik.studentraportichka.datasource;
+
+import com.example.pomik.studentraportichka.domain.usecase.model.Student;
 
 import java.util.ArrayList;
 import java.util.HashMap;

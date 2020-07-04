@@ -1,4 +1,4 @@
-package com.example.pomik.studentraportichka.model;
+package com.example.pomik.studentraportichka.datasource;
 
 import android.content.Context;
 
@@ -9,8 +9,11 @@ import java.util.Calendar;
 
 public class TempFileManager {
     private static TempFileManager instance = null;
-    private String fileName = null;
-    private File file;
+    private String fileNameCSV = null;
+    private String fileNameHTML = null;
+
+    private File fileCSV;
+    private File fileHTML;
 
     private TempFileManager() {
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
@@ -24,9 +27,10 @@ public class TempFileManager {
         builder.append(month);
         builder.append("_");
         builder.append(year);
-        builder.append(".raport");
-        fileName = builder.toString();
+        builder.append(".csv");
+        fileNameCSV = builder.toString();
 
+        fileNameHTML = builder.toString().replaceFirst(".csv",".html");
         // Проблема с получением Контекста для создания файла
 
     }
@@ -38,19 +42,30 @@ public class TempFileManager {
     }
 
     public void create(Context context) {
-        file = new File(context.getCacheDir(),fileName);
+        fileCSV = new File(context.getCacheDir(), fileNameCSV);
+        fileHTML = new File(context.getCacheDir(), fileNameHTML);
+//        try {
+//            if(!file.isFile())
+//                file = File.createTempFile(fileNameCSV, null, context.getCacheDir());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public void saveCSV(String text) {
         try {
-            if(!file.isFile())
-                file = File.createTempFile(fileName, null, context.getCacheDir());
+            FileWriter writer = new FileWriter(fileCSV);
+            writer.write(text);
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    public void save(String text) {
+    public void saveHTML(String text) {
         try {
-            FileWriter writer = new FileWriter(file);
+            FileWriter writer = new FileWriter(fileHTML);
             writer.write(text);
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,5 +73,12 @@ public class TempFileManager {
 
     public void load() {
 
+    }
+
+    public File getCSVFile() {
+        return fileCSV;
+    }
+    public File getHTMLFile() {
+        return fileHTML;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.pomik.studentraportichka.model;
+package com.example.pomik.studentraportichka.domain.usecase.model;
 
 public class Student {
     private int id;

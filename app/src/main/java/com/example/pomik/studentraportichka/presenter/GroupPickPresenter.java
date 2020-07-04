@@ -1,9 +1,9 @@
 package com.example.pomik.studentraportichka.presenter;
 
-import com.example.pomik.studentraportichka.model.DataBaseDemo;
-import com.example.pomik.studentraportichka.model.DataBaseReader;
-import com.example.pomik.studentraportichka.model.StudentGroup;
-import com.example.pomik.studentraportichka.view.GroupPickView;
+import com.example.pomik.studentraportichka.datasource.DataBaseDemo;
+import com.example.pomik.studentraportichka.datasource.DataBaseReader;
+import com.example.pomik.studentraportichka.domain.usecase.model.StudentGroup;
+import com.example.pomik.studentraportichka.ui.view.GroupPickView;
 
 import java.util.List;
 
